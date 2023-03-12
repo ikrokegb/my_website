@@ -1,10 +1,38 @@
-import express from "express"
+import express from "express";
+import jwt from "jsonwebtoken";
 
 const app = express();
 
+app.use(express.json());
+
 app.get('/', (req, res) => {
-    res.send('111 hello world');
+    res.send('hello world!');
 });
+
+app.post('/auth/login', (req, res) => {
+    console.log(req.body);
+
+let token = null;
+
+if (req.body.email === "test@test.ru") {
+    const token = jwt.sign(
+        {
+            email: req.body.email,
+            fullName: 'петька ушанкин',
+        },
+        'secret123',
+    );
+
+
+    res.json({
+        success: true,
+        token,
+    });
+
+}
+
+}
+)
 
 app.listen(4444, (err) => {
     if (err) {
@@ -12,4 +40,4 @@ app.listen(4444, (err) => {
     }
 
     console.log('server OK');
-});
+})

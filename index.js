@@ -8,7 +8,10 @@ import { registerValidation, loginValidation, postCreateValidation } from './val
 
 import {handleValidationErrors, checkAuth} from './utils/index.js';
 
-import { UserController, PostController } from './controllers/index.js';
+import { UserController, PostController, CommentController } from './controllers/index.js';
+
+//import { createComment } from './controllers/CommentController.js';
+
 
 mongoose
     .connect(
@@ -50,6 +53,9 @@ app.get('posts/tags', PostController.getLastTags);
 app.get('/posts/:id', PostController.getOne);
 app.post('/posts', checkAuth, postCreateValidation, handleValidationErrors, PostController.create);
 app.delete('/posts/:id', checkAuth, PostController.remove);
+
+app.post('/comments', CommentController.createComment); // создание коммента
+
 app.patch(
     '/posts/:id', 
     checkAuth, 

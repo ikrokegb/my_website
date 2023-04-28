@@ -4,13 +4,11 @@ import cors from 'cors';
 
 import mongoose from 'mongoose';
 
-import { registerValidation, loginValidation, postCreateValidation } from './validations.js';
+import { registerValidation, loginValidation, postCreateValidation, CommentCreateValidation } from './validations.js';
 
 import {handleValidationErrors, checkAuth} from './utils/index.js';
 
 import { UserController, PostController, CommentController } from './controllers/index.js';
-
-//import { createComment } from './controllers/CommentController.js';
 
 
 mongoose
@@ -54,7 +52,11 @@ app.get('/posts/:id', PostController.getOne);
 app.post('/posts', checkAuth, postCreateValidation, handleValidationErrors, PostController.create);
 app.delete('/posts/:id', checkAuth, PostController.remove);
 
-app.post('/comments', CommentController.createComment); // создание коммента
+
+app.post('/comments', checkAuth, CommentCreateValidation, CommentController.createComment); // создать коммент
+app.delete('/comments/:id', checkAuth, CommentController.deleteComment);
+//app.patch('/comments/:id', CommentController.updateComment);
+
 
 app.patch(
     '/posts/:id', 

@@ -52,10 +52,17 @@ app.get('/posts/:id', PostController.getOne);
 app.post('/posts', checkAuth, postCreateValidation, handleValidationErrors, PostController.create);
 app.delete('/posts/:id', checkAuth, PostController.remove);
 
-
-app.post('/comments', checkAuth, CommentCreateValidation, CommentController.createComment); // создать коммент
+//коммент
+app.post('/comments', checkAuth, CommentCreateValidation, CommentController.createComment);
 app.delete('/comments/:id', checkAuth, CommentController.deleteComment);
-//app.patch('/comments/:id', CommentController.updateComment);
+app.get('/comments/:id', CommentController.getOneComment);
+app.get('/posts/:id/comments', CommentController.getAllComments);
+app.patch(
+    '/comments/:id', 
+    checkAuth, 
+    CommentCreateValidation, 
+    handleValidationErrors,
+    CommentController.updateComment);
 
 
 app.patch(

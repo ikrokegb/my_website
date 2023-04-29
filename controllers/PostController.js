@@ -12,7 +12,19 @@ export const getLastTags = async (req, res) => {
             message: 'Не удалось получить теги',
         });
     }
-}
+};
+
+export const getLastComments = async (req, res) => {
+    try {
+        const comments = await CommentModel.find().limit(5).exec();
+        res.json(comments)
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: 'Не удалось получить комментарии',
+        });
+    }
+};
 
 export const getAll = async (req, res) => {
     try {
